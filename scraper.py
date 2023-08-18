@@ -2,9 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
-def get_images_urls(term, max_images, choice, page=1):
+def scrap(term, max_images, choice, page=1):
     headers = {'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'}
-    images_urls = set()
     site = None
     if choice == "g":
        site = 'gettyimages.ae'
@@ -12,27 +11,24 @@ def get_images_urls(term, max_images, choice, page=1):
        site = 'istockphoto.com'
 
     url = f'https://{site}/search/2/image?phrase={term}&page={page}'
-
-    while(max_images > len(images_urls) and page <= 100):
-        # You Can Configure The Url To Scrap From Getty Images Also
+    counter = 1
+    while(max_images >= counter and page <= 100):
         url.format(page=page)
         response = requests.get(url, headers=headers)      
-        soup = BeautifulSoup(response.content, 'html.parser')
-
+        soup = BeautifulSoup(response.content, 'lxml')
+        
         for element in soup.find_all('picture'):
-           link = element.find('img')['src']
-           images_urls.add(link)
-
-           if(max_images <= len(images_urls)):
-              return images_urls
-           
+            link = element.find('img')['src'] # Get Image Url
+            img = requests.get(link)
+            with open(f'images/image{counter}.png', 'wb') as f: # Download Image
+                f.write(img.content)
+                print(f'Image {counter} Downloaded')
+            if(max_images <= counter):
+                return
+            counter += 1         
         page += 1
 
-    return images_urls
-
-
-
-term = input('Enter Search Term: ').strip().replace(" ", "%20")
+term = input('Enter Search Term: ').strip().replace(" ", "%20") # Encode Spaces
 
 max_images = None
 while max_images is None:
@@ -42,22 +38,12 @@ while max_images is None:
       print('Please Enter A valid Number!')
 
 choice = None 
-while choice is None: # pick site to scrap (getty/istockphoto)
+while choice is None: 
     choice = input('Scrap From GettyImages.com or iStockphoto.com?  (g/i): ')[0]
-    if(choice != "g" and choice != "i"):
+    if(choice != 'g' and choice != 'i'):
        choice = None
-
-urls = get_images_urls(term, max_images, choice=choice) # Get URLs
 
 if not os.path.isdir('images'): # Create Images Folder 
   os.mkdir('images')
 
-i = 1
-for url in urls: #Download Images From URLs
-  response = requests.get(url)
-  if response.status_code == 200:
-    with open(f'images/image{i}.png', 'wb') as f:
-        f.write(response.content)
-        print(f'Image {i} Downloaded')
-  i += 1     
-
+scrap(term, max_images, choice=choice) # Scrap Images
