@@ -26,7 +26,7 @@ As default, the script creates a folder named 'Images' and saves downloaded imag
 
 * **Search Term**: Keywords to search for.
 * **Max Images**: Max number of images to scrap.
-* **gettyimages.com or istockphoto.com.com**: Enter `g` to scrap from GettyImages and `i` to scrap from iStockphoto.
+* **gettyimages.com or istockphoto.com**: Enter `g` to scrap from GettyImages and `i` to scrap from iStockphoto.
 
 
 
