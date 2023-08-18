@@ -5,10 +5,11 @@ This Python Script Scraps **PREVIEW** Images From GettyImages or iStockPhoto Usi
 
 ## Set Up
 
-Install BeautifulSoup and lxml Using Terminal:
+Install Prerequisites Using Terminal:
 ```
 pip install beautifulsoup4
 pip install lxml
+pip install requests
 ```
 
 ---
@@ -19,8 +20,6 @@ Using Terminal in the scrapper.py directory, run:
 ```
 python scraper.py
 ```
-As default, the script creates a folder named 'Images' and saves downloaded images there. If the folder isn't created, try to create it manually.
-
 
 ### Definitions
 

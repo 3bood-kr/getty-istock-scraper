@@ -39,7 +39,7 @@ while max_images is None:
 
 choice = None 
 while choice is None: 
-    choice = input('Scrap From gettyimages.ae or istockphoto.com?  (g/i): ')[0]
+    choice = input('Scrap From gettyimages or istockphoto?  (g/i): ')[0]
     if(choice != 'g' and choice != 'i'):
        choice = None
 
