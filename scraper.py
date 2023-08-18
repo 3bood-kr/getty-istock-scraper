@@ -6,11 +6,11 @@ def scrap(term, max_images, choice, page=1):
     headers = {'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'}
     site = None
     if choice == "g":
-       site = 'gettyimages.ae'
+       site = 'gettyimages'
     else:
-       site = 'istockphoto.com'
+       site = 'istockphoto'
 
-    url = f'https://{site}/search/2/image?phrase={term}&page={page}'
+    url = f'https://{site}.com/search/2/image?phrase={term}&page={page}'
     counter = 1
     while(max_images >= counter and page <= 100):
         url.format(page=page)
